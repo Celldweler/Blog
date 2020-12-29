@@ -1,5 +1,7 @@
-﻿using Blog.Data.Repository;
+﻿using Blog.Data.FileManager;
+using Blog.Data.Repository;
 using Blog.Models;
+using Blog.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,38 +16,52 @@ namespace Blog.Controllers
     public class PanelController : Controller
     {
         private IRepository _repos;
-
-        public PanelController(IRepository repository)
+        private IFileManager _fileManager;
+        public PanelController(
+            IRepository repository,
+            IFileManager fileManager
+            )
         {
             _repos = repository;
+            _fileManager = fileManager;
         }
         public IActionResult Index()
         {
             var posts = _repos.GetAllPosts();
             return View(posts);
         }
-        public IActionResult Post(int id)
-        {
-            var post = _repos.GetPost(id);
-            return View(post);
-        }
-
+        
         [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id == null)
-                return View(new Post());
+            {
+                return View(new PostViewModel());
+            }
             else
             {
                 var post = _repos.GetPost((int)id);
-                return View(post);
+                return View(new PostViewModel
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Body = post.Body
+                });
             }
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Post post)
+        public async Task<IActionResult> Edit(PostViewModel vm)
         {
+            var post = new Post
+            {
+                Id = vm.Id,
+                Title = vm.Title,
+                Body = vm.Body,
+                Image = await _fileManager.SaveImage(vm.Image),  // image handle
+            };
+
             if (post.Id > 0)
                 _repos.UpdatePost(post);
             else

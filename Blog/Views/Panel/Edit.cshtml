@@ -1,0 +1,41 @@
+﻿@model PostViewModel
+@using Blog.ViewModels
+
+@{
+}
+
+<div>    
+    <form asp-controller="Panel" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div>
+            <label> Title </label>
+            <input asp-for="Title" />
+        </div>
+        <div>
+            <label> Body </label>
+            <input asp-for="Body" />
+        </div>
+        <div>
+            <label> Image </label>
+            <input asp-for="Image" />
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+@*@using (Html.BeginForm())
+{
+    @Html.Hidden("Id")
+    <div>
+        @Html.LabelFor(m => m.Title)
+        @Html.EditorFor(m => m.Title)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Body)
+        @Html.EditorFor(m => m.Body)
+    </div>
+   
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+}*@

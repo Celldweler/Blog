@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data.Repository;
 using Microsoft.AspNetCore.Identity;
+using Blog.Data.FileManager;
 
 namespace Blog
 {
@@ -28,6 +29,7 @@ namespace Blog
             services.AddMvc();
             services.AddRazorPages();
             services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IFileManager, FileManager>();
             services.AddControllersWithViews();
             services.AddRouting();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_config["DefaultConnection"]));
@@ -64,6 +66,8 @@ namespace Blog
 
             app.UseAuthentication();
             app.UseAuthorization();
+            // Add Static Files Middleware  
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
