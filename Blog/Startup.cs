@@ -40,8 +40,13 @@ namespace Blog
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
             })
-                 .AddEntityFrameworkStores<AppDbContext>();
-           
+              .AddEntityFrameworkStores<AppDbContext>();
+
+            services.ConfigureApplicationCookie( options => 
+            {
+                options.LoginPath = "/Auth/Login";
+
+            });
             //services.AddIdentityCore<IdentityUser>()
             //    .AddRoles<IdentityRole>()
             //    .AddEntityFrameworkStores<AppDbContext>();
@@ -79,6 +84,10 @@ namespace Blog
                 endpoints.MapControllerRoute(
                       name: "default",
                       pattern: "{controller=Auth}/{action=Logout}/");
+
+                endpoints.MapControllerRoute(
+                      name: "default",
+                      pattern: "{controller=Panel}/{action=Index}/");
             });
            
         }
