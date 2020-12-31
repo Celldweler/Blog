@@ -52,16 +52,19 @@ nav a{
     height: 400px;
     text-shadow: 0 0 5px 0 black;
 }
-.post img{
+    .post img{
     width: 100%;
     object-fit: cover;
-}
+    }
 
-.post-body {
+    .post-body {
     margin: -5px 5px 0;
-    background-color: white; 
-}
+    padding: 20px 5px;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    }
 
-.no-shadow{
+    .no-shadow{
     box-shadow: none;
-}
+    }
